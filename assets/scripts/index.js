@@ -16,6 +16,7 @@ var questionList;
 var currentIndex = 0;
 var currentQuestion;
 var score = 0;
+var highscores = [];
 
 function initialize() {
   //Initialize timer to 75 seconds
@@ -158,7 +159,22 @@ function checkSelectedAnswer(event) {
   }
 }
 
+function submitHighScore(event) {
+  event.preventDefault();
+  var entry = highscoreBox.value;
+  //Check to see if there are already highscores and if grab the list and use it
+  var localHighscores = JSON.parse(localStorage.getItem("highscores"));
+  if (localHighscores) {
+    highscores = localHighscores;
+  }
+
+  highscores.push(entry + " - " + score);
+  localStorage.setItem("highscores", JSON.stringify(highscores));
+  window.location.replace("./highscores.html");
+}
+
 initialize();
 
 startBtn.addEventListener("click", startQuiz);
 choicesList.addEventListener("click", checkSelectedAnswer);
+highscoreForm.addEventListener("submit", submitHighScore)

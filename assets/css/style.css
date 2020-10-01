@@ -56,6 +56,20 @@ li{
     display: none;
 }
 
+#highscore-list li:nth-child(odd){
+    background-color: #8f6ead;
+    
+}
+
+#highscore-list li{
+    padding: 5px;
+    
+}
+
+.highscore-container{
+    margin-top: 50px;
+}
+
 @media screen and (max-width: 500px){
     .main-content{
         width: 100%;
