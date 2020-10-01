@@ -7,6 +7,7 @@ var answerIndicator = document.querySelector(".answer-indicator");
 
 var timeLeft;
 var interval;
+var timeout;
 var questionList;
 var currentIndex = 0;
 var currentQuestion;
@@ -81,36 +82,68 @@ function startQuiz() {
 }
 
 function renderQuestion() {
-    //Get question in the current index from questions array
-    currentQuestion = questionList[currentIndex];
-    //Clear choices from list before rendering choices from question
-    choicesList.innerHTML = "";
-    //Set the text of the question header to the question
-    questionHeader.textContent = currentQuestion.question;
-    var choices = currentQuestion.getChoices();
-    var choiceListItem;
-    var choiceButton;
-  
-    for (var i = 0; i < choices.length; i++) {
-      choiceListItem = document.createElement("li");
-      choiceButton = document.createElement("button");
-      choiceButton.classList.add("btn");
-      choiceButton.textContent = i + 1 + ". " + choices[i];
-  
-      //If the current choice is the same as the answer to the question, give
-      //it a data-answer attribute with a value of true
-      if (currentQuestion.answer === choices[i]) {
-        choiceButton.setAttribute("data-answer", "true");
-      }
-  
-      choiceListItem.append(choiceButton);
-      choicesList.append(choiceListItem);
+  //Get question in the current index from questions array
+  currentQuestion = questionList[currentIndex];
+  //Clear choices from list before rendering choices from question
+  choicesList.innerHTML = "";
+  //Set the text of the question header to the question
+  questionHeader.textContent = currentQuestion.question;
+  var choices = currentQuestion.getChoices();
+  var choiceListItem;
+  var choiceButton;
+
+  for (var i = 0; i < choices.length; i++) {
+    choiceListItem = document.createElement("li");
+    choiceButton = document.createElement("button");
+    choiceButton.classList.add("btn");
+    choiceButton.textContent = i + 1 + ". " + choices[i];
+
+    //If the current choice is the same as the answer to the question, give
+    //it a data-answer attribute with a value of true
+    if (currentQuestion.answer === choices[i]) {
+      choiceButton.setAttribute("data-answer", "true");
     }
-  
-    //Increment index to access next question
-    currentIndex++;
+
+    choiceListItem.append(choiceButton);
+    choicesList.append(choiceListItem);
   }
+
+  //Increment index to access next question
+  currentIndex++;
+}
+
+function checkSelectedAnswer(event) {
+  //Checks to see if indicator for current selection has disappeared
+  //and if not cancel it and show indicator for the next selection
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+
+  var target = event.target;
+
+  //Delegates click event to the buttons in the list of choices
+  //and shows an indicator to indicate if the user's seleciton is right or wrong
+  //then renders the next question
+  if (target.matches("button")) {
+    if (target.getAttribute("data-answer") === "true") {
+      answerIndicator.textContent = "Right!";
+    } else {
+      answerIndicator.textContent = "Wrong!";
+      timeLeft -= 10;
+    }
+
+    answerIndicator.classList.remove("hide");
+
+    timeout = setTimeout(() => {
+      answerIndicator.classList.add("hide");
+    }, 1000);
+
+
+      renderQuestion();
+  }
+}
 
 initialize();
 
 startBtn.addEventListener("click", startQuiz);
+choicesList.addEventListener("click", checkSelectedAnswer);
