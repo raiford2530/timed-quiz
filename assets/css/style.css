@@ -39,6 +39,23 @@ a:hover{
     color: white;
 }
 
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+
+li{
+    padding-bottom: 5px;
+}
+
+.answer-indicator{
+    border-top: 1px solid gray;
+}
+
+.hide{
+    display: none;
+}
+
 @media screen and (max-width: 500px){
     .main-content{
         width: 100%;
