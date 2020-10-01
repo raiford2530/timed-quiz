@@ -1,0 +1,40 @@
+html{
+    font-size: 17px;
+}
+
+.time-container {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.main-content{
+    width: 51%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+a:link,  a:visited,  a:hover, a:active{
+    color: rgb(83, 6, 155);
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.btn{
+    background-color: #53069b;
+    color: white;
+    padding: 5px;
+    line-height: 1;
+}
+
+.btn:hover{
+    background-color: #8f6ead;
+    color: white;
+}
