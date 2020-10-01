@@ -4,6 +4,10 @@ var qaSection = document.querySelector(".qa-section");
 var questionHeader = document.querySelector(".question");
 var choicesList = document.querySelector(".choices");
 var answerIndicator = document.querySelector(".answer-indicator");
+var highscoreSection = document.querySelector(".highscore-section");
+var highscoreForm = document.getElementById("highscore-form");
+var scoreSpan = document.getElementById("score");
+var highscoreBox = document.getElementById("highscore-box");
 
 var timeLeft;
 var interval;
@@ -11,6 +15,7 @@ var timeout;
 var questionList;
 var currentIndex = 0;
 var currentQuestion;
+var score = 0;
 
 function initialize() {
   //Initialize timer to 75 seconds
@@ -77,6 +82,9 @@ function startQuiz() {
 
     if (timeLeft == 0) {
       clearInterval(interval);
+      qaSection.classList.add("hide");
+      highscoreSection.classList.remove("hide");
+      scoreSpan.textContent = score;
     }
   }, 1000);
 }
@@ -127,6 +135,7 @@ function checkSelectedAnswer(event) {
   if (target.matches("button")) {
     if (target.getAttribute("data-answer") === "true") {
       answerIndicator.textContent = "Right!";
+      score += 11;
     } else {
       answerIndicator.textContent = "Wrong!";
       timeLeft -= 10;
@@ -138,8 +147,14 @@ function checkSelectedAnswer(event) {
       answerIndicator.classList.add("hide");
     }, 1000);
 
-
+    if (currentIndex === questionList.length) {
+      clearInterval(interval);
+      qaSection.classList.add("hide");
+      highscoreSection.classList.remove("hide");
+      scoreSpan.textContent = score;
+    } else {
       renderQuestion();
+    }
   }
 }
 
